@@ -1,25 +1,25 @@
-import * as React from 'react';
-import { Component } from 'react';
-import { Layout, Button, Select } from 'antd';
+import React, {Component} from 'react';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import Home from './containers/home';
 
-export default class App extends Component<any, any> {
-  constructor(props: any) {
-    super(props);
-  }
+export default class App extends Component {
+  private routes = [
+    {
+      path: '/',
+      component: Home,
+      exact: true,
+    },
+  ];
 
   render() {
     return (
-      <Layout className='App'>
-        <Button>Wow</Button>
-        <Select
-          // showArrow={true}
-          // onMouseEnter={() => console.log('test')}
-          onMouseLeave={() => console.log('test')}
-          value=''
-        >
-          <Select.Option>Test</Select.Option>
-        </Select>
-      </Layout>
+      <BrowserRouter>
+        <div className='root' role='main'>
+          <Switch>
+            {this.routes.map((props, index) => <Route key={index} {...props}/>)}
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }

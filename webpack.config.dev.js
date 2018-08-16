@@ -30,23 +30,23 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
+          {loader: 'style-loader'},
+          {loader: 'css-loader'},
         ],
       },
       {
         test: /\.scss$/,
         use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
-          { loader: 'sass-loader' }
+          {loader: 'style-loader'},
+          {loader: 'css-loader'},
+          {loader: 'sass-loader'}
         ]
       },
       {
         test: /\.less$/,
         use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
+          {loader: 'style-loader'},
+          {loader: 'css-loader'},
           {
             loader: 'less-loader',
             options: {
@@ -71,6 +71,10 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
   },
   plugins: [
+    new webpack.DllReferencePlugin({ // Reference pre-built vendor dlls
+      context: process.cwd(),
+      manifest: require(path.join(process.cwd(), 'dist', 'vendor.json'))
+    }),
     new CheckerPlugin(),
     new webpack.HotModuleReplacementPlugin(), // Enable HMR
     new webpack.EnvironmentPlugin({

@@ -10,6 +10,7 @@
 /build
 /dist
 /.awcache
+/assets/vendor
 
 # misc
 .DS_Store

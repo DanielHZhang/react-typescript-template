@@ -1,8 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const OUTPUT_PATH = path.join(process.cwd(), 'dist');
-const OUTPUT_PUBLIC_PATH = path.join('http://localhost:3000/assets/');
+// Path in local file system to which the vendor files will be emitted
+const OUTPUT_PATH = path.join(process.cwd(), 'assets', 'vendor');
 
 /**
  * Webpack configuration for common vendor bundle, using DllPlugin for long-term
@@ -26,7 +26,6 @@ module.exports = {
     filename: '[name].dll.js',
     library: '[name]',
     path: OUTPUT_PATH,
-    publicPath: OUTPUT_PUBLIC_PATH,
   },
   plugins: [
     new webpack.DllPlugin({

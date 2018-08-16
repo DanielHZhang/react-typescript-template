@@ -1,13 +1,17 @@
 const path = require('path');
 const webpack = require('webpack');
 const {CheckerPlugin} = require('awesome-typescript-loader');
+const SimpleProgressWebpackPlugin = require('simple-progress-webpack-plugin');
 
 const ENTRY_POINT = path.join(process.cwd(), 'src', 'index.tsx');
-const OUTPUT_PATH = path.join(process.cwd(), 'dist');
-const OUTPUT_PUBLIC_PATH = path.join('http://localhost:3000/assets/');
+// Path on the local file system to serve from
+const OUTPUT_PATH = path.join(process.cwd(), 'assets');
+// Path by which the HTML will access the bundle
+const OUTPUT_PUBLIC_PATH = 'http://localhost:3000/assets/';
 
 module.exports = {
   mode: 'development',
+  target: 'web',
   entry: {
     app: [
       'react-hot-loader/patch',
@@ -73,9 +77,10 @@ module.exports = {
   plugins: [
     new webpack.DllReferencePlugin({ // Reference pre-built vendor dlls
       context: process.cwd(),
-      manifest: require(path.join(process.cwd(), 'dist', 'vendor.json'))
+      manifest: require(path.join(process.cwd(), 'assets', 'vendor', 'vendor.json'))
     }),
     new CheckerPlugin(),
+    new SimpleProgressWebpackPlugin({format: 'minimal'}),
     new webpack.HotModuleReplacementPlugin(), // Enable HMR
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
@@ -91,7 +96,7 @@ module.exports = {
     child_process: 'empty',
   },
   devServer: {
-    contentBase: OUTPUT_PATH,
+    contentBase: [OUTPUT_PATH, path.join(OUTPUT_PATH, 'vendor')],
     port: 3000,
     compress: true,
     hot: true

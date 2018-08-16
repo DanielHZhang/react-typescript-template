@@ -1,5 +1,5 @@
 import './index.less';
-import './app.scss';
+import './index.scss';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';

@@ -1,44 +1,38 @@
-const webpack = require('webpack');
-const { CheckerPlugin } = require('awesome-typescript-loader');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const path = require('path');
-const chalk = require('chalk');
+const webpack = require('webpack');
+const {CheckerPlugin} = require('awesome-typescript-loader');
 
-const ENTRY_POINT = path.join(__dirname, 'src', 'index.tsx');
+const ENTRY_POINT = path.join(process.cwd(), 'src', 'index.tsx');
+const OUTPUT_PATH = path.join(process.cwd(), 'dist');
+const OUTPUT_PUBLIC_PATH = path.join('http://localhost:3000/assets/');
 
 module.exports = {
   mode: 'development',
   entry: {
     app: [
-      // 'react-hot-loader/patch',
+      'react-hot-loader/patch',
       ENTRY_POINT
     ],
-    vendor: ['react', 'react-dom']
   },
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist')
-    // publicPath: 'http://localhost:3000/dist/',
+    path: OUTPUT_PATH,
+    publicPath: OUTPUT_PUBLIC_PATH,
   },
-  devtool: 'source-map',
+  devtool: 'cheap-module-eval-source-map',
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              babelrc: false,
-              plugins: ['react-hot-loader/babel']
-            }
-          },
-          'awesome-typescript-loader'
-        ]
+        exclude: /node_modules/,
+        use: 'awesome-typescript-loader',
       },
       {
         test: /\.css$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+        ],
       },
       {
         test: /\.scss$/,
@@ -77,18 +71,23 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new CheckerPlugin(),
-    new ProgressBarPlugin({
-      format: `build [:bar] ${chalk.green.bold(':percent')} (:elapsed seconds)`,
-      clear: false
-    })
+    new webpack.HotModuleReplacementPlugin(), // Enable HMR
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development',
+      PORT: 3000,
+    }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // Ignore moment locale modules
   ],
   node: {
-    fs: 'empty'
+    dgram: 'empty',
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    child_process: 'empty',
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: OUTPUT_PATH,
     port: 3000,
     compress: true,
     hot: true

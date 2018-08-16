@@ -1,5 +1,5 @@
 {
-  "name": "me",
+  "name": "react-typescript-template",
   "version": "0.1.0",
   "author": "Daniel Zhang",
   "private": true,
@@ -7,11 +7,13 @@
   "scripts": {
     "start": "webpack-dev-server --config=webpack.config.dev.js --info=false",
     "build": "webpack --config=webpack.config.prod.js",
-    "test": ""
+    "build:dll": "webpack --config webpack.config.common.js --progress --colors",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "stats": "webpack --config webpack.config.prod.js --stats > stats.json"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/FadeZhanger/me"
+    "url": "https://github.com/FadeZhanger/react-typescript-template"
   },
   "dependencies": {
     "antd": "^3.7.0",
@@ -46,7 +48,6 @@
     "less": "^3.7.1",
     "less-loader": "^4.1.0",
     "node-sass": "^4.9.2",
-    "progress-bar-webpack-plugin": "^1.11.0",
     "react-dev-utils": "^5.0.1",
     "react-hot-loader": "^4.3.3",
     "sass-loader": "^7.0.3",

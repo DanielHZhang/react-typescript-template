@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "cross-env": "^5.2.0",
+    "immer": "^1.7.4",
     "mongoose": "^5.3.12",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",

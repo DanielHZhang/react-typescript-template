@@ -14,7 +14,7 @@ module.exports = function getConstants(path) {
     REACT_ENTRY_POINT: path.join(process.cwd(), 'src', 'index.tsx'),
 
     // Path on the local file system to serve index.html from
-    VENDOR_OUTPUT_PATH: path.join(process.cwd(), 'assets'),
+    VENDOR_OUTPUT_PATH: path.join(process.cwd(), 'build'),
 
     // Path by which the HTML will access the bundle
     OUTPUT_PUBLIC_PATH: `http://localhost:${PORT}/assets/`,

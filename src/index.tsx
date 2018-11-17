@@ -1,8 +1,8 @@
 import './index.less';
 import './index.scss';
 
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import {AppContainer as HotReloader} from 'react-hot-loader';
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
@@ -25,18 +25,12 @@ const render = (Component: React.ComponentClass) => {
 
 render(App);
 
-interface CustomModule extends NodeModule {
-  hot: {
-    accept: (targetPath: string, callback: () => void) => void;
-  };
-}
-
-if ((module as CustomModule).hot) {
-  (module as CustomModule).hot.accept('./app', () => {
+if (module.hot) {
+  module.hot.accept('./app', () => {
     const NextApp = require('./app').default;
     render(NextApp);
   });
-  (module as CustomModule).hot.accept('./reducers', () => {
+  module.hot.accept('./reducers', () => {
     store.replaceReducer(require('./reducers').default);
   });
 }

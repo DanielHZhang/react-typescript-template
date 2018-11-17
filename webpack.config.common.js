@@ -1,8 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-
-// Path in local file system to which the vendor files will be emitted
-const OUTPUT_PATH = path.join(process.cwd(), 'assets', 'vendor');
+const {VENDOR_OUTPUT_PATH} = require('./webpack.constants')(path);
 
 /**
  * Webpack configuration for common vendor bundle, using DllPlugin for long-term
@@ -12,25 +10,24 @@ module.exports = {
   mode: 'development', // Can be changed to production for minification
   context: process.cwd(), // Use current working directory
   entry: {
+    // Change this array to contain everything that does not need to be rebuilt often
     vendor: [
-      'core-js',
       'react',
       'react-dom',
       'react-router-dom',
       'react-redux',
       'redux',
-      'redux-thunk',
     ],
   },
   output: {
     filename: '[name].dll.js',
     library: '[name]',
-    path: OUTPUT_PATH,
+    path: VENDOR_OUTPUT_PATH,
   },
   plugins: [
     new webpack.DllPlugin({
       name: '[name]',
-      path: path.join(OUTPUT_PATH, '[name].json'),
+      path: path.join(VENDOR_OUTPUT_PATH, '[name].json'),
     }),
   ],
 };

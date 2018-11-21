@@ -3,14 +3,12 @@ import webpack from 'webpack';
 import http from 'http';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import path, {join} from 'path';
+import {join} from 'path';
 import {connect} from 'mongoose';
 import {json, urlencoded} from 'body-parser';
-import getConstants from '../webpack.constants';
+import {BUILD_URL, VENDOR_BUNDLE_PATH, VENDOR_BUNDLE_FILENAME} from '../webpack.constants';
 import {ApiRouter, AuthRouter} from './routes';
 import keys from './config/keys';
-
-const {OUTPUT_PUBLIC_PATH, VENDOR_JS_PATH, PORT} = getConstants(path);
 
 export class Server {
   /** Checks if the server is started in API only mode (no webpack compilation) */
@@ -24,6 +22,9 @@ export class Server {
 
   /** Path to the static assets folder (serves images, files, etc.) */
   private static readonly ASSETS_PATH = join(process.cwd(), 'assets');
+
+  /** Path to the vendor bundle javascript file on the local file system */
+  private static readonly VENDOR_BUNDLE_PATH = join(process.cwd(), ...VENDOR_BUNDLE_PATH);
 
   /** Reference to the express application */
   private app: express.Application;
@@ -54,7 +55,7 @@ export class Server {
       const webpackDevConfig = require('../webpack.config.dev').config;
       const compiler = webpack(webpackDevConfig);
       const options = {
-        publicPath: OUTPUT_PUBLIC_PATH, // Serve app.bundle.js on https://.../assets
+        publicPath: BUILD_URL, // Serve app.bundle.js on https://.../assets
         logLevel: 'error', // Suppress build info output
       };
       this.app.use(webpackDevMiddleware(compiler, options));
@@ -107,8 +108,12 @@ export class Server {
     this.app.use('/api', ApiRouter);
     this.app.use('/auth', AuthRouter);
     // ADD ADDITIONAL ROUTES HERE
-    this.app.get('/assets/vendor.dll.js', (req, res) => res.sendFile(VENDOR_JS_PATH));
-    this.app.get('*', (req, res) => res.sendFile(Server.INDEX_PATH));
+    this.app.get('*', (req, res) => {
+      if (req.url === `/assets/${VENDOR_BUNDLE_FILENAME}`) {
+        return res.sendFile(Server.VENDOR_BUNDLE_PATH);
+      }
+      res.sendFile(Server.INDEX_PATH);
+    });
   }
 
   /**

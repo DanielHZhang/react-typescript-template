@@ -1,15 +1,7 @@
+import {join} from 'path';
 import webpack from 'webpack';
 import ProgressPlugin from 'simple-progress-webpack-plugin';
-import getConstants from './webpack.constants';
-import path from 'path';
-
-const {
-  PORT,
-  REACT_ENTRY_POINT,
-  VENDOR_OUTPUT_PATH,
-  OUTPUT_PUBLIC_PATH,
-  VENDOR_DLL_PATH
-} = getConstants(path);
+import {PORT, REACT_ENTRY_PATH, BUILD_OUTPUT_PATH, BUILD_URL, VENDOR_JSON_PATH} from './webpack.constants';
 
 export const config: webpack.Configuration = {
   mode: 'development',
@@ -19,13 +11,13 @@ export const config: webpack.Configuration = {
       'react-hot-loader/patch',
       'webpack-hot-middleware/client',
       'webpack/hot/only-dev-server',
-      REACT_ENTRY_POINT,
+      join(process.cwd(), ...REACT_ENTRY_PATH),
     ],
   },
   output: {
     filename: '[name].bundle.js',
-    path: VENDOR_OUTPUT_PATH,
-    publicPath: OUTPUT_PUBLIC_PATH,
+    path: join(process.cwd(), ...BUILD_OUTPUT_PATH),
+    publicPath: BUILD_URL,
   },
   devtool: 'cheap-module-eval-source-map',
   module: {
@@ -56,8 +48,12 @@ export const config: webpack.Configuration = {
       {
         test: /\.less$/,
         use: [
-          {loader: 'style-loader'},
-          {loader: 'css-loader'},
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
           {
             loader: 'less-loader',
             options: {
@@ -85,7 +81,7 @@ export const config: webpack.Configuration = {
     new ProgressPlugin({format: 'minimal'}),
     new webpack.DllReferencePlugin({
       context: process.cwd(),
-      manifest: require(VENDOR_DLL_PATH)
+      manifest: require(join(process.cwd(), ...VENDOR_JSON_PATH))
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.EnvironmentPlugin({

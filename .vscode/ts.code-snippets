@@ -1,19 +1,12 @@
-// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
-// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
-// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
-// used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
-// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
-// Placeholders with the same ids are connected.
-// Example:
-// "Print to console": {
-// 	"scope": "javascript,typescript",
-// 	"prefix": "log",
-// 	"body": [
-// 		"console.log('$1');",
-// 		"$2"
-// 	],
-// 	"description": "Log output to console"
-// }
+/*
+Place your global snippets here. Each snippet is defined under a snippet name and has
+a scope, prefix, body and description. Add comma separated ids of the languages where
+the snippet is applicable in the scope field. If scope is left empty or omitted, the
+snippet gets applied to all languages. The prefix is what is used to trigger the
+snippet and the body will be expanded and inserted. Possible variables are: $1, $2
+for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for
+placeholders. Placeholders with the same ids are connected.
+*/
 {
   "Print to console": {
     "scope": "javascript,typescript,typescriptreact",
@@ -27,7 +20,7 @@
     "scope": "javascript,typescript,typescriptreact",
     "prefix": "chere",
     "body": [
-      "console.log('%cGOES HERE', 'color: red; font-size: 16px;'${1});"
+      "console.log('%cGOES HERE', 'color: red; font-size: 16px;'$0);"
     ],
     "description": "Logs output 'Goes here' to console"
   },
@@ -36,7 +29,7 @@
     "prefix": "cdm",
     "body": [
       "componentDidMount() {",
-      "\t${1}",
+      "\t$0",
       "}",
     ],
     "description": "Creates the componentDidMount() lifecycle function"
@@ -46,7 +39,7 @@
     "prefix": "cwu",
     "body": [
       "componentWillUnmount() {",
-      "\t${1}",
+      "\t$0",
       "}",
     ],
   },
@@ -54,8 +47,8 @@
     "scope": "typescriptreact",
     "prefix": "scu",
     "body": [
-      "shouldComponentUpdate(nextProps: ${1:Name}Props, nextState: ${1:Name}State) {",
-      "\t${2}",
+      "shouldComponentUpdate(nextProps: Props, nextState: State) {",
+      "\t$0",
       "}"
     ],
     "description": "Creates the shouldComponentUpdate() lifecycle function"
@@ -64,8 +57,8 @@
     "scope": "typescriptreact",
     "prefix": "gdsfp",
     "body": [
-      "static getDerivedStateFromProps(nextProps: ${1:Name}Props, prevState: ${1:Name}State) {",
-      "  ${2}",
+      "static getDerivedStateFromProps(nextProps: Props, prevState: State): Partial<State> | null {",
+      "\t$0",
       "}"
     ],
     "description": "Creates the getDerivedStateFromProps lifecycle function"
@@ -75,7 +68,7 @@
     "prefix": "cdu",
     "body": [
       "componentDidUpdate(prevProps: Props, prevState: State) {",
-      "\t${1}",
+      "\t$0",
       "}"
     ],
     "description": "Creates the componentDidUpdate() lifecycle function"
@@ -192,7 +185,7 @@
     "scope": "typescriptreact",
     "prefix": "mstp",
     "body": [
-      "function mapStateToProps({}: RootState): StateProps {",
+      "function mapStateToProps({$0}: RootState): StateProps {",
       "\treturn {};",
       "}"
     ],
@@ -203,7 +196,7 @@
     "prefix": "mdtp",
     "body": [
       "function mapDispatchToProps(dispatch: Dispatch): DispatchProps {",
-      "\treturn bindActionCreators({}, dispatch);",
+      "\treturn bindActionCreators({$0}, dispatch);",
       "}"
     ],
     "description": "Creates a mapDispatchToProps function",

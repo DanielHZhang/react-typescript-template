@@ -1,7 +1,15 @@
-import {join} from 'path';
+import path from 'path';
 import webpack from 'webpack';
-import ProgressPlugin from 'simple-progress-webpack-plugin';
-import {PORT, REACT_ENTRY_PATH, BUILD_OUTPUT_PATH, BUILD_URL, VENDOR_JSON_PATH} from './webpack.constants';
+import ProgressPlugin from '@supersede/webpack-progress-plugin';
+import {
+  PORT,
+  REACT_ENTRY_PATH,
+  VENDOR_JSON_PATH,
+  BUILD_URL,
+  BUILD_OUTPUT_PATH,
+} from './webpack.constants';
+// import TsConfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+// import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 
 export const config: webpack.Configuration = {
   mode: 'development',
@@ -11,12 +19,12 @@ export const config: webpack.Configuration = {
       'react-hot-loader/patch',
       'webpack-hot-middleware/client',
       'webpack/hot/only-dev-server',
-      join(process.cwd(), ...REACT_ENTRY_PATH),
+      path.join(process.cwd(), ...REACT_ENTRY_PATH),
     ],
   },
   output: {
     filename: '[name].bundle.js',
-    path: join(process.cwd(), ...BUILD_OUTPUT_PATH),
+    path: path.join(process.cwd(), ...BUILD_OUTPUT_PATH),
     publicPath: BUILD_URL,
   },
   devtool: 'cheap-module-eval-source-map',
@@ -49,10 +57,10 @@ export const config: webpack.Configuration = {
         test: /\.less$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: 'style-loader',
           },
           {
-            loader: 'css-loader'
+            loader: 'css-loader',
           },
           {
             loader: 'less-loader',
@@ -67,7 +75,7 @@ export const config: webpack.Configuration = {
         use: {
           loader: 'url-loader',
           options: {
-            name: 'fonts/[name].[ext]',
+            name: 'files/[name].[ext]',
             limit: 50000,
           },
         },
@@ -76,12 +84,17 @@ export const config: webpack.Configuration = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    // plugins: [
+    //   new TsConfigPathsPlugin({
+    //     configFile: './tsconfig.json',
+    //   }),
+    // ],
   },
   plugins: [
     new ProgressPlugin({format: 'minimal'}),
     new webpack.DllReferencePlugin({
       context: process.cwd(),
-      manifest: require(join(process.cwd(), ...VENDOR_JSON_PATH))
+      manifest: require(path.join(process.cwd(), ...VENDOR_JSON_PATH))
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.EnvironmentPlugin({

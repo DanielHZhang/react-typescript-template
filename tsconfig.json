@@ -17,6 +17,7 @@
     // ],
     "checkJs": false,
     "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "lib": [
       "es2015",
@@ -29,16 +30,19 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": false,
-    "outDir": "dist",
+    "noUnusedLocals": true,
+    "outDir": "build",
+    "strictBindCallApply": true,
     "strictNullChecks": true,
     "target": "es6"
   },
   "exclude": [
-    "node_modules",
-    "**/node_modules/*",
-    ".vscode",
+    ".awcache",
     ".idea",
-    ".awcache"
+    ".vscode",
+    "bin",
+    "build",
+    "node_modules"
   ],
   "awesomeTypescriptLoaderOptions": {
     "useCache": true,

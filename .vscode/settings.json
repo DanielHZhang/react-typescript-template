@@ -21,11 +21,5 @@
   "typescript.format.placeOpenBraceOnNewLineForControlBlocks": false,
   "typescript.format.placeOpenBraceOnNewLineForFunctions": false,
   "typescript.reportStyleChecksAsWarnings": true,
-  "typescript.preferences.quoteStyle": "single",
-  "vsicons.associations.files": [{
-    "icon": "webpack",
-    "extensions": ["webpack.constants.js", "webpack.vendor.js"],
-    "filename": true,
-    "format": "svg",
-  }],
+  "typescript.preferences.quoteStyle": "single"
 }

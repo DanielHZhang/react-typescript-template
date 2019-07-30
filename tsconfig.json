@@ -2,36 +2,21 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    // "baseUrl": ".",
-    // "paths": {
-    //   "server/*": ["server/*"],
-    //   "src/*": ["src/*"],
-    //   "actions/*": ["src/actions/*"],
-    //   "reducers/*": ["src/reducers/*"],
-    //   "components/*": ["src/components/*"],
-    //   "containers/*": ["src/containers/*"],
-    //   "utils/*": ["src/utils/*"]
-    // },
-    // "rootDirs": [
-    //   "node_modules"
-    // ],
-    "checkJs": false,
+    "baseUrl": ".",
+    "paths": {
+      "server/*": ["server/*"],
+      "client/*": ["client/*"]
+    },
+    "checkJs": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "lib": [
-      "es2015",
-      "es2016",
-      "es2017",
-      "dom"
-    ],
-    "module": "es2015",
     "moduleResolution": "node",
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": false,
     "noUnusedLocals": true,
     "outDir": "build",
+    "sourceMap": true,
     "strictBindCallApply": true,
     "strictNullChecks": true,
     "target": "es6"
@@ -43,10 +28,5 @@
     "bin",
     "build",
     "node_modules"
-  ],
-  "awesomeTypescriptLoaderOptions": {
-    "useCache": true,
-    "forceIsolatedModules": true,
-    "transpileOnly": true
-  }
+  ]
 }

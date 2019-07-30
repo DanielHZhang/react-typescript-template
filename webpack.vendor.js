@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const { BUILD_OUTPUT_PATH, BUILD_URL, vendors } = require('./webpack.constants');
+const {BUILD_OUTPUT_PATH, BUILD_URL, vendors} = require('./webpack.constants');
 
 /**
  * Webpack configuration for common vendor bundle, using DllPlugin for long-term

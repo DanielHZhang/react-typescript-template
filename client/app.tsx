@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import Home from './containers/home';
+import Home from 'client/pages/home';
 
 export default class App extends Component {
   private routes = [
@@ -16,7 +16,7 @@ export default class App extends Component {
       <BrowserRouter>
         <div className='root' role='main'>
           <Switch>
-            {this.routes.map((props, index) => <Route key={index} {...props}/>)}
+            {this.routes.map((props, index) => <Route key={index} {...props} />)}
           </Switch>
         </div>
       </BrowserRouter>

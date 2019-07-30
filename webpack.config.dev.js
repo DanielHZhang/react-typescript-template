@@ -1,17 +1,21 @@
-import path from 'path';
-import webpack from 'webpack';
-import ProgressPlugin from '@supersede/webpack-progress-plugin';
-import {
+const {
   PORT,
   REACT_ENTRY_PATH,
   VENDOR_JSON_PATH,
   BUILD_URL,
   BUILD_OUTPUT_PATH,
-} from './webpack.constants';
-// import TsConfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-// import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
+} = require('./webpack.constants');
+const {join} = require('path');
+const webpack = require('webpack');
+const ProgressPlugin = require('@supersede/webpack-progress-plugin');
+const {TsconfigPathsPlugin} = require('tsconfig-paths-webpack-plugin');
+const manifest = require(join(process.cwd(), ...VENDOR_JSON_PATH));
+// const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 
-export const config: webpack.Configuration = {
+/**
+ * @type webpack.Configuration
+ */
+module.exports.config = {
   mode: 'development',
   target: 'web',
   entry: {
@@ -19,12 +23,12 @@ export const config: webpack.Configuration = {
       'react-hot-loader/patch',
       'webpack-hot-middleware/client',
       'webpack/hot/only-dev-server',
-      path.join(process.cwd(), ...REACT_ENTRY_PATH),
+      join(process.cwd(), ...REACT_ENTRY_PATH),
     ],
   },
   output: {
     filename: '[name].bundle.js',
-    path: path.join(process.cwd(), ...BUILD_OUTPUT_PATH),
+    path: join(process.cwd(), ...BUILD_OUTPUT_PATH),
     publicPath: BUILD_URL,
   },
   devtool: 'cheap-module-eval-source-map',
@@ -32,22 +36,25 @@ export const config: webpack.Configuration = {
     rules: [
       {
         test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: ['awesome-typescript-loader'],
-      },
-      {
-        test: /\.jsx?$/,
-        exclude: [/node_modules/],
-        use: {
-          loader: 'babel-loader',
-          options: {
-            plugins: ['react-hot-loader/babel'],
-          },
-        },
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+            }
+          }
+        ],
       },
       {
         test: /\.css$/,
-        use: [{loader: 'style-loader'}, {loader: 'css-loader'}],
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          }
+        ],
       },
       {
         test: /\.scss$/,
@@ -84,31 +91,25 @@ export const config: webpack.Configuration = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    // plugins: [
-    //   new TsConfigPathsPlugin({
-    //     configFile: './tsconfig.json',
-    //   }),
-    // ],
+    plugins: [new TsconfigPathsPlugin({configFile: join(process.cwd(), 'client', 'tsconfig.json')})],
   },
   plugins: [
     new ProgressPlugin({format: 'minimal'}),
     new webpack.DllReferencePlugin({
       context: process.cwd(),
-      manifest: require(path.join(process.cwd(), ...VENDOR_JSON_PATH))
+      manifest,
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
       PORT,
     }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // Ignore moment locale modules
     // new BundleAnalyzerPlugin(),
   ],
-  node: {
-    dgram: 'empty',
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    child_process: 'empty',
-  },
+  // node: {
+  //   child_process: 'empty',
+  //   fs: 'empty',
+  //   net: 'empty',
+  //   tls: 'empty',
+  // },
 };

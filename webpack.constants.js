@@ -8,7 +8,7 @@ module.exports.BUILD_URL = '/assets/';
 module.exports.BUILD_OUTPUT_PATH = ['build'];
 
 /** Path in the local file system to the client-side React root */
-module.exports.REACT_ENTRY_PATH = ['src', 'index.tsx'];
+module.exports.REACT_ENTRY_PATH = ['client', 'index.tsx'];
 
 /** Filename of the vendor bundle on local system */
 module.exports.VENDOR_BUNDLE_FILENAME = 'vendor.bundle.js';

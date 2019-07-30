@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import {testReducer} from './test';
+import {testReducer} from 'client/reducers/test';
 
 export type RootState = {
   test: ReturnType<typeof testReducer>;
